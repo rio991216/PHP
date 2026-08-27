@@ -2,14 +2,14 @@ FROM php:8.4-apache
 
 # 必要なLinuxパッケージ（ライブラリ）のインストール
 RUN apt-get update && apt-get install -y \
-  libpng-dev \
-  libjpeg-dev \
-  libfreetype6-dev \
-  libzip-dev \
-  zip \
-  unzip \
-  msmtp \
-  && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    msmtp \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Composerのインストール
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -19,11 +19,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 # PHP拡張モジュールのインストール
 RUN docker-php-ext-install \
-  pdo_mysql \
-  mysqli \
-  gd \
-  zip \
-  opcache
+    pdo_mysql \
+    mysqli \
+    gd \
+    zip \
+    opcache
 
 # ApacheのURL書き換えモジュールを有効化（将来URLを綺麗にする際に必要になります）
 RUN a2enmod rewrite
