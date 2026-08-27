@@ -62,3 +62,14 @@ function my_pre_get_posts(mixed $query)
     // カテゴリーページの場合
     // カスタム投稿ページの場合
 }
+
+
+/*
+*タイトルの「保護中」の文字を削除する
+*/
+add_filter('protected_title_format', 'my_protected_title');
+function my_protected_title($title)
+{
+    // '🔑' . $title; //元のタイトルを使って編集したい場合
+    return '%s';
+}
