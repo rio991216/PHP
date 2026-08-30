@@ -18,11 +18,14 @@
                 <a href="<?= home_url(); ?>"><?php bloginfo('name'); ?></a>
             </div>
             <nav class="global-nav">
-                <ul>
-                    <li><a href="index.html">ホーム</a></li>
-                    <li><a href="page.html">私たちについて</a></li>
-                    <li><a href="archive.html">ブログ</a></li>
-                </ul>
+                <?php
+                $args = [
+                    'menu' => 'global-navigation',
+                    'menu_class' => '',
+                    'container' => false,
+                ];
+                wp_nav_menu($args);
+                ?>
             </nav>
         </div>
     </header>
