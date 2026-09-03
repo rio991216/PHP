@@ -8,12 +8,45 @@
       <h1 class="kv_title">FOOD SCIENCE<br>TOKYO</h1>
       <p class="kv_subtitle">FROM JAPAN</p>
     </div>
+    <?php
+    $args = [
+      'post_type' => 'main-visual',
+      'posts_per_page' => -1,
 
-    <div class="kv_slider js-slider">
-      <div class="kv_sliderItem" style="background-image: url('<?= get_template_directory_uri(); ?>/assets/img/home/kv-01@2x.jpg');"></div>
-      <div class="kv_sliderItem" style="background-image: url('<?= get_template_directory_uri(); ?>/assets/img/home/kv-02@2x.jpg');"></div>
-      <div class="kv_sliderItem" style="background-image: url('<?= get_template_directory_uri(); ?>/assets/img/home/kv-03@2x.jpg');"></div>
-    </div>
+      // 公開終了日(カスタムフィールド)による条件設定
+      'meta_query' => [
+        'relation' => 'OR',
+        //条件1：公開終了日が未来のもの
+        [
+          'key' => 'end_date',
+          'type' => 'DATETIME',
+          'compare' => '>',
+          'value' => date('Y-m-d H:i:s'),
+        ],
+        //条件2：公開終了日が登録されていないもの
+        [
+          'key' => 'end_date',
+          'value' => '',
+        ],
+        //条件3：公開終了日フィールドをそもそも持っていないもの
+        [
+          'key' => 'end_date',
+          'compare' => 'NOT EXISTS',
+        ],
+      ],
+    ];
+    $the_query = new WP_Query($args);
+    ?>
+    <?php if ($the_query->have_posts()): ?>
+      <div class="kv_slider js-slider">
+        <?php while ($the_query->have_posts()) : $the_query->the_post(); ?>
+          <?php $pic = get_field('pic'); ?>
+          <div class="kv_sliderItem" style="background-image: url('<?= $pic['url']; ?>');"></div>
+        <?php endwhile; ?>
+        <?php wp_reset_postdata(); ?>
+      </div>
+    <?php endif; ?>
+
     <div class="kv_overlay"></div>
 
     <div class="kv_scroll">
